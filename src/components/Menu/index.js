@@ -1,10 +1,20 @@
 import React from 'react';
+import Logo from '../../assets/img/Logo.png';
+import './Menu.css';
+import Button from '../../components/Button'
+// import ButtonLink from './components/ButtonLink';
 
 function Menu() {
     return (
-        <header>
-            Moviex é Show!
-        </header>
+        <nav className="Menu">
+            <a href="/">
+                <img className="Logo" src={Logo} alt="Moviex Logo" />
+            </a>
+
+            <Button as="a" className="ButtonLink" href="/">
+                Novo Vídeo
+            </Button>
+        </nav>
     );
 }
 
