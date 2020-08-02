@@ -70,7 +70,7 @@ function CadastroCategoria() {
           value={valores.cor}
           onChange={handlerChange}
         />
-        <Button>Cadastrar</Button>
+        <Button type="submit">Cadastrar</Button>
       </form>
 
       {categorias.length === 0 && (
