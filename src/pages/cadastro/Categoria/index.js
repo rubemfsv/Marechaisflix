@@ -3,40 +3,23 @@ import { Link } from 'react-router-dom';
 import PageDefault from '../../../components/PageDefault';
 import FormField from '../../../components/FormField';
 import Button from '../../../components/Button';
+import useForm from '../../../hooks/useForm';
 
 function CadastroCategoria() {
-  const [categorias, setCategorias] = useState([]);
   const valoresIniciais = {
     nome: '',
     descricao: '',
     cor: '#000000',
   };
-  const [valores, setValores] = useState(valoresIniciais);
 
-  function setValor(chave, valor) {
-    setValores({
-      ...valores,
-      [chave]: valor,
-    });
-  }
+  const { handlerChange, valores, clearForm } = useForm(valoresIniciais);
 
-  function handlerChange(infosDoEvento) {
-    const infos = infosDoEvento.target;
-    setValor(infos.getAttribute('name'), infos.value);
-  }
-
-  function hangleSubmit(infosDoEvento) {
-    infosDoEvento.preventDefault();
-    setCategorias([
-      ...categorias,
-      valores,
-    ]);
-
-    setValores(valoresIniciais);
-  }
+  const [categorias, setCategorias] = useState([]);
 
   useEffect(() => {
-    const URL = 'https://marechais-flix.herokuapp.com/categorias';
+    const URL = window.location.hostname.includes('localhost')
+      ? 'http://localhost:8080/categorias'
+      : 'https://marechais-flix.herokuapp.com/categorias';
     fetch(URL)
       .then(async (response) => {
         const res = await response.json();
@@ -56,7 +39,16 @@ function CadastroCategoria() {
         {valores.nome}
       </h1>
 
-      <form onSubmit={hangleSubmit}>
+      <form onSubmit={function handleSubmit(infosDoEvento) {
+        infosDoEvento.preventDefault();
+        setCategorias([
+          ...categorias,
+          valores,
+        ]);
+
+        clearForm(valoresIniciais);
+      }}
+      >
 
         <FormField
           label="Nome da Categoria"
