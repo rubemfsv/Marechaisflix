@@ -1,18 +1,18 @@
 import React from 'react';
 import { FooterBase } from './styles';
+import LogoMarechais from '../../assets/img/LogoMarechais.png';
 
 function Footer() {
   return (
     <FooterBase>
       <a href="https://www.alura.com.br/">
-        <img src="https://www.alura.com.br/assets/img/alura-logo-white.1570550707.svg" alt="Logo Alura" />
+        <img className="Logo" src={LogoMarechais} alt="Logo Marechais" />
       </a>
+
       <p>
-        Orgulhosamente criado durante a
-        {' '}
-        <a href="https://www.alura.com.br/">
-          Imersão React da Alura
-        </a>
+        Associação Desportista Maceio Marechais
+        <br />
+        CNPJ: 17639203000125
       </p>
     </FooterBase>
   );

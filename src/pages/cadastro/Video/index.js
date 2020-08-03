@@ -11,7 +11,7 @@ function CadastroVideo() {
   const history = useHistory();
   const [categorias, setCategorias] = useState([]);
   const categoryTitles = categorias.map(({ titulo }) => titulo);
-  const { handlerChange, valores } = useForm({
+  const { handleChange, values } = useForm({
     titulo: 'Video padrão',
     url: 'https://www.youtube.com/watch?v=jOAU81jdi-c',
     categoria: 'Front End',
@@ -31,16 +31,19 @@ function CadastroVideo() {
 
       <form onSubmit={(event) => {
         event.preventDefault();
+        // alert('Video Cadastrado com sucesso!!!1!');
 
-        const categoriaEscolhida = categorias.find((categoria) => categoria.titulo === valores.categoria);
+        const categoriaEscolhida = categorias.find((categoria) => {
+          return categoria.titulo === values.categoria;
+        });
 
         videosRepository.create({
-          titulo: valores.titulo,
-          url: valores.url,
+          titulo: values.titulo,
+          url: values.url,
           categoriaId: categoriaEscolhida.id,
         })
           .then(() => {
-            // console.log('Cadastrou com sucesso!');
+            console.log('Cadastrou com sucesso!');
             history.push('/');
           });
       }}
@@ -48,22 +51,22 @@ function CadastroVideo() {
         <FormField
           label="Título do Vídeo"
           name="titulo"
-          value={valores.titulo}
-          onChange={handlerChange}
+          value={values.titulo}
+          onChange={handleChange}
         />
 
         <FormField
           label="URL"
           name="url"
-          value={valores.url}
-          onChange={handlerChange}
+          value={values.url}
+          onChange={handleChange}
         />
 
         <FormField
           label="Categoria"
           name="categoria"
-          value={valores.categoria}
-          onChange={handlerChange}
+          value={values.categoria}
+          onChange={handleChange}
           suggestions={categoryTitles}
         />
 

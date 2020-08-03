@@ -9,86 +9,108 @@ function CadastroCategoria() {
   const valoresIniciais = {
     nome: '',
     descricao: '',
-    cor: '#000000',
+    cor: '',
   };
 
-  const { handlerChange, valores, clearForm } = useForm(valoresIniciais);
+  const { handleChange, values, clearForm } = useForm(valoresIniciais);
 
   const [categorias, setCategorias] = useState([]);
 
   useEffect(() => {
-    const URL = window.location.hostname.includes('localhost')
+    const URL_TOP = window.location.hostname.includes('localhost')
       ? 'http://localhost:8080/categorias'
-      : 'https://marechais-flix.herokuapp.com/categorias';
-    fetch(URL)
-      .then(async (response) => {
-        const res = await response.json();
-
+      : 'https://devsoutinhoflix.herokuapp.com/categorias';
+    // E a ju ama variáveis
+    fetch(URL_TOP)
+      .then(async (respostaDoServidor) => {
+        const resposta = await respostaDoServidor.json();
         setCategorias([
-          ...res,
+          ...resposta,
         ]);
       });
-  }, [
-    valores.nome,
-  ]);
+
+    // setTimeout(() => {
+    //   setCategorias([
+    //     ...categorias,
+    //     {
+    //       id: 1,
+    //       nome: 'Front End',
+    //       descricao: 'Uma categoria bacanudassa',
+    //       cor: '#cbd1ff',
+    //     },
+    //     {
+    //       id: 2,
+    //       nome: 'Back End',
+    //       descricao: 'Outra categoria bacanudassa',
+    //       cor: '#cbd1ff',
+    //     },
+    //   ]);
+    // }, 4 * 1000);
+  }, []);
 
   return (
     <PageDefault>
       <h1>
         Cadastro de Categoria:
-        {valores.nome}
+        {values.nome}
       </h1>
 
       <form onSubmit={function handleSubmit(infosDoEvento) {
         infosDoEvento.preventDefault();
         setCategorias([
           ...categorias,
-          valores,
+          values,
         ]);
 
-        clearForm(valoresIniciais);
+        clearForm();
       }}
       >
 
         <FormField
           label="Nome da Categoria"
           name="nome"
-          value={valores.nome}
-          onChange={handlerChange}
+          value={values.nome}
+          onChange={handleChange}
         />
+
         <FormField
           label="Descrição"
           type="textarea"
           name="descricao"
-          value={valores.descricao}
-          onChange={handlerChange}
+          value={values.descricao}
+          onChange={handleChange}
         />
+
         <FormField
           label="Cor"
           type="color"
           name="cor"
-          value={valores.cor}
-          onChange={handlerChange}
+          value={values.cor}
+          onChange={handleChange}
         />
-        <Button type="submit">Cadastrar</Button>
+
+        <Button>
+          Cadastrar
+        </Button>
       </form>
 
       {categorias.length === 0 && (
         <div>
-          Carregando. . .
+          {/* Cargando... */}
+          Loading...
         </div>
       )}
 
       <ul>
-        {categorias.map((categoria, indice) => (
-          <li key={`${categoria}${indice}`}>
+        {categorias.map((categoria) => (
+          <li key={`${categoria.titulo}`}>
             {categoria.titulo}
           </li>
         ))}
       </ul>
 
       <Link to="/">
-        Ir pra Home
+        Ir para home
       </Link>
     </PageDefault>
   );
